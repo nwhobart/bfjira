@@ -26,6 +26,12 @@ jobs:
       - name: build
         run: poetry build
 
+      - name: store dist for later usage
+        uses: actions/upload-artifact@v3
+        with:
+          name: poetry-dist
+          path: dist
+
   pypi-publish:
     needs: [build-packages]
     name: Upload release to PyPI
@@ -36,5 +42,10 @@ jobs:
     permissions:
       id-token: write
     steps:
+    - name: get dist
+      uses: actions/download-artifact@v3
+      with:
+        name: poetry-dist
+
     - name: Publish package distributions to PyPI
       uses: pypa/gh-action-pypi-publish@release/v1
