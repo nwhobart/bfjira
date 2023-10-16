@@ -2,6 +2,19 @@
 
 
 
+## v0.1.2 (2023-10-16)
+
+### Fix
+
+* fix: one big job :( ([`ce72c78`](https://github.com/nwhobart/bfjira/commit/ce72c788a22e075959cb32e85b5b233d38b1ea72))
+
+### Unknown
+
+* Merge pull request #6 from nwhobart/fix-2
+
+fix: one big job :( ([`f1f411b`](https://github.com/nwhobart/bfjira/commit/f1f411b8772457369f08d75ac013f3462c17cd44))
+
+
 ## v0.1.1 (2023-10-16)
 
 ### Fix
