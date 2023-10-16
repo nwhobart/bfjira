@@ -8,7 +8,7 @@ readme = "README.md"
 [tool.poetry.dependencies]
 python = "^3.10"
 jira = "^3.5.2"
-pygithub = "^1.58.2"
+pygithub = "^2.0.0"
 
 [build-system]
 requires = ["poetry-core"]
