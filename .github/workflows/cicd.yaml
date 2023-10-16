@@ -5,9 +5,14 @@ on:
       - "v*.*.*"
 
 jobs:
-  build-packages:
+  build-and-publish:
     name: Install Poetry and build dist packages
     runs-on: ubuntu-latest
+    environment:
+    name: pypi
+    url: https://pypi.org/p/bfjira
+    permissions:
+      id-token: write
     steps:
       - name: checkout repository
         uses: actions/checkout@v4
@@ -26,26 +31,9 @@ jobs:
       - name: build
         run: poetry build
 
-      - name: store dist for later usage
-        uses: actions/upload-artifact@v3
-        with:
-          name: poetry-dist
-          path: dist
+      - name: check directory
+        run: |
+          ls -lah
 
-  pypi-publish:
-    needs: [build-packages]
-    name: Upload release to PyPI
-    runs-on: ubuntu-latest
-    environment:
-      name: pypi
-      url: https://pypi.org/p/bfjira
-    permissions:
-      id-token: write
-    steps:
-    - name: get dist
-      uses: actions/download-artifact@v3
-      with:
-        name: poetry-dist
-
-    - name: Publish package distributions to PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
+      - name: Publish package distributions to PyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
