@@ -2,6 +2,19 @@
 
 
 
+## v0.1.3 (2023-10-16)
+
+### Fix
+
+* fix: idiot ([`71c293d`](https://github.com/nwhobart/bfjira/commit/71c293ddd2bcda6140f1b45af993ccf38aca365a))
+
+### Unknown
+
+* Merge pull request #7 from nwhobart/fix-3
+
+fix: idiot ([`a92e5c0`](https://github.com/nwhobart/bfjira/commit/a92e5c06da2569809aa8e141bf93638c6080e605))
+
+
 ## v0.1.2 (2023-10-16)
 
 ### Fix
