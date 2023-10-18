@@ -2,6 +2,19 @@
 
 
 
+## v0.1.4 (2023-10-18)
+
+### Fix
+
+* fix(deps): update dependency gitpython to v3.1.40 ([`0680485`](https://github.com/nwhobart/bfjira/commit/06804856c95f858f774d88057d38ed6623adfd09))
+
+### Unknown
+
+* Merge pull request #8 from nwhobart/renovate/gitpython-3.x-lockfile
+
+fix(deps): update dependency gitpython to v3.1.40 ([`b48e9b9`](https://github.com/nwhobart/bfjira/commit/b48e9b953606fac43fe3cf68e1f01da936f3e4f5))
+
+
 ## v0.1.3 (2023-10-16)
 
 ### Fix
