@@ -17,3 +17,13 @@ build-backend = "poetry.core.masonry.api"
 [tool.poetry.scripts]
 bfjira = 'bfjira:main'
 
+[tool.semantic_release]
+version_variable = [
+    "__init__.py:__version__"
+]
+version_toml = [
+    "pyproject.toml:tool.poetry.version"
+]
+version_pattern = [
+    "README.md:rev: v{version}",
+]
