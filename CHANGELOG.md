@@ -2,6 +2,19 @@
 
 
 
+## v0.1.5 (2023-10-18)
+
+### Fix
+
+* fix: bumping version and hoping to update pyproject ([`de3f47a`](https://github.com/nwhobart/bfjira/commit/de3f47a0f2c0343960633677e6f8914dca01f4bf))
+
+### Unknown
+
+* Merge pull request #9 from nwhobart/fix_poetry_build_and_versioning
+
+fix: bumping version and hoping to update pyproject ([`5aa5097`](https://github.com/nwhobart/bfjira/commit/5aa50970499426289e5bd10e30185afb04082fbd))
+
+
 ## v0.1.4 (2023-10-18)
 
 ### Fix
