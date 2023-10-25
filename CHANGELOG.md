@@ -2,6 +2,19 @@
 
 
 
+## v0.2.0 (2023-10-25)
+
+### Feature
+
+* feat: adding help and version commands ([`68c039c`](https://github.com/nwhobart/bfjira/commit/68c039c081da19818e719358d01a18a24ede7e06))
+
+### Unknown
+
+* Merge pull request #10 from nwhobart/adding_more_fucntionality
+
+feat: adding help and version commands ([`98b520c`](https://github.com/nwhobart/bfjira/commit/98b520cd75872af98736459380818b416cca4fa0))
+
+
 ## v0.1.5 (2023-10-18)
 
 ### Fix
