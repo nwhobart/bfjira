@@ -2,6 +2,19 @@
 
 
 
+## v0.2.1 (2023-10-27)
+
+### Fix
+
+* fix: truncating the output of the the version command ([`b5e6626`](https://github.com/nwhobart/bfjira/commit/b5e6626a8bb77f1f8d7ee6b042a2590e8718e8ef))
+
+### Unknown
+
+* Merge pull request #11 from nwhobart/fixing_version_bug
+
+fix: truncating the output of the the version command ([`2713d35`](https://github.com/nwhobart/bfjira/commit/2713d350ff7d83a0aefbe39bc11e72a8363cd899))
+
+
 ## v0.2.0 (2023-10-25)
 
 ### Feature
