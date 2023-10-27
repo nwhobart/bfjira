@@ -18,6 +18,7 @@ def get_version_from_git():
         version = subprocess.check_output(
             ["git", "describe", "--tags"], universal_newlines=True
         ).strip()
+        version = version.split("-")[0]  # Truncate at the first hyphen
         return version
     except subprocess.CalledProcessError:
         return "Version information not found"
