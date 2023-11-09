@@ -12,34 +12,17 @@ from jira import JIRA
 logging.basicConfig(level=logging.INFO)
 
 
-# Function to get version from Git tags
-def get_version_from_git():
-    try:
-        version = subprocess.check_output(
-            ["git", "describe", "--tags"], universal_newlines=True
-        ).strip()
-        version = version.split("-")[0]  # Truncate at the first hyphen
-        return version
-    except subprocess.CalledProcessError:
-        return "Version information not found"
-
-
-__version__ = get_version_from_git()
-
-
 # Function to show help text
 def show_help():
     help_text = """Usage: bfjira [OPTIONS] [ARGUMENTS]
 
 Options:
-    version     Show the current version of the script.
     help        Show this help message.
 
 Arguments:
     [JIRA_ID]   ID of the JIRA ticket to use.
 
 Examples:
-    bfjira version
     bfjira help
     bfjira SRE-1234
     """
@@ -108,10 +91,7 @@ def create_git_branch_and_set_upstream(branch_name):
 
 def main():
     if len(sys.argv) == 2:
-        if sys.argv[1].lower() == "version":
-            print(__version__)
-            exit(0)
-        elif sys.argv[1].lower() == "help":
+        if sys.argv[1].lower() == "help":
             show_help()
             exit(0)
 
