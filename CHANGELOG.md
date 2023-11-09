@@ -2,6 +2,19 @@
 
 
 
+## v0.2.2 (2023-11-09)
+
+### Fix
+
+* fix: remove well-intentioned but stupid version command ([`8af8609`](https://github.com/nwhobart/bfjira/commit/8af8609d6c8f79e056b5812be17ffe0c25d25377))
+
+### Unknown
+
+* Merge pull request #12 from nwhobart/remove_busted_version_command
+
+fix: remove well-intentioned but stupid version command ([`94fc1f0`](https://github.com/nwhobart/bfjira/commit/94fc1f00017c614f0d32b87956193be87f1c34a9))
+
+
 ## v0.2.1 (2023-10-27)
 
 ### Fix
