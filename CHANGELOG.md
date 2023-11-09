@@ -2,6 +2,19 @@
 
 
 
+## v0.3.0 (2023-11-09)
+
+### Feature
+
+* feat: adding default prefix and updating readme ([`5122228`](https://github.com/nwhobart/bfjira/commit/5122228ff6c1985814eedba2132c92fb949bff27))
+
+### Unknown
+
+* Merge pull request #13 from nwhobart/adding_default_prefix_option
+
+feat: adding default prefix and updating readme ([`032e728`](https://github.com/nwhobart/bfjira/commit/032e728e9687c8d279bba19bca50e5e0b55f90e8))
+
+
 ## v0.2.2 (2023-11-09)
 
 ### Fix
