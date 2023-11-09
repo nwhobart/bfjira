@@ -1,35 +1,17 @@
 #!/usr/bin/env python3
 
-import os
-import sys
-import re
+import argparse
 import logging
+import os
+import re
 import subprocess
+import sys
 from git import Repo
 from jira import JIRA
 
 # Set up logging
+logger = logging.getLogger()
 logging.basicConfig(level=logging.INFO)
-
-
-def show_help():
-    help_text = """
-Usage: bfjira [OPTIONS] [ARGUMENTS]
-
-Options:
-    help        Show this help message.
-
-Arguments:
-    [JIRA_ID]   ID of the JIRA ticket to use. If only a number is provided,
-                the default prefix "SRE-" will be used (e.g., "1234" becomes "SRE-1234").
-                Set the JIRA_TICKET_PREFIX environment variable to override the default prefix.
-
-Examples:
-    bfjira help
-    bfjira 1234         # Assumes "SRE-1234"
-    JIRA_TICKET_PREFIX=OPS bfjira 1234  # Uses "OPS-1234"
-"""
-    print(help_text.strip())
 
 
 def change_to_git_root():
@@ -39,7 +21,7 @@ def change_to_git_root():
         ).strip()
         os.chdir(git_root)
     except subprocess.CalledProcessError as e:
-        logging.error(f"Failed to find git repository root: {e}")
+        logger.error(f"Failed to find git repository root: {e}")
         sys.exit(1)
 
 
@@ -48,20 +30,21 @@ def sanitize_branch_name(name):
 
 
 def get_branch_name_based_on_jira_ticket(
-    jira_server, jira_email, jira_api_token, ticket_id
+    jira_server, jira_email, jira_api_token, ticket_id, issue_type_override=None
 ):
     if "-" not in ticket_id:
-        logging.error("Ticket ID must include a prefix followed by a hyphen.")
+        logger.error("Ticket ID must include a prefix followed by a hyphen.")
         sys.exit(1)
     jira = JIRA(server=jira_server, basic_auth=(jira_email, jira_api_token))
     ticket = jira.issue(ticket_id)
-    issue_type = ticket.fields.issuetype.name.lower()
+    issue_type_from_jira = ticket.fields.issuetype.name.lower()
+    issue_type = issue_type_override if issue_type_override else issue_type_from_jira
     branch_prefix = (
         "feature"
         if issue_type == "story"
         else "fix"
         if issue_type == "bug"
-        else "issue"
+        else issue_type  # Use the override as the prefix if provided
     )
     sanitized_summary = sanitize_branch_name(ticket.fields.summary)
     branch_name = f"{branch_prefix}/{ticket_id}-{sanitized_summary.lower()}"
@@ -70,31 +53,62 @@ def get_branch_name_based_on_jira_ticket(
     return branch_name
 
 
-def create_git_branch_and_set_upstream(branch_name):
+def create_git_branch_and_set_upstream(branch_name, set_upstream=True):
     repo = Repo()
     if repo.is_dirty():
-        logging.info("Please commit your changes before creating a new branch.")
+        logger.info("Please commit your changes before creating a new branch.")
         return
     origin = repo.remotes.origin
-    logging.info("Pulling the latest changes from the remote repository...")
+    logger.info("Pulling the latest changes from the remote repository...")
     origin.pull()
-    logging.info("Successfully pulled the latest changes.")
-    logging.info(f"Creating new branch '{branch_name}'...")
+    logger.info("Successfully pulled the latest changes.")
+    logger.info(f"Creating new branch '{branch_name}'...")
     repo.create_head(branch_name)
-    logging.info(f"Successfully created new branch '{branch_name}'.")
-    logging.info(f"Checking out to the new branch '{branch_name}'...")
+    logger.info(f"Successfully created new branch '{branch_name}'.")
+    logger.info(f"Checking out to the new branch '{branch_name}'...")
     repo.heads[branch_name].checkout()
-    logging.info(f"Successfully checked out to '{branch_name}'.")
-    logging.info(f"Pushing the new branch '{branch_name}' and setting the upstream...")
-    origin.push(branch_name, set_upstream=True)
-    logging.info(
-        f"Successfully pushed the new branch '{branch_name}' and set the upstream."
-    )
+    if set_upstream:
+        logger.info(
+            f"Pushing the new branch '{branch_name}' and setting the upstream..."
+        )
+        origin.push(branch_name, set_upstream=True)
+        logger.info(
+            f"Successfully pushed the new branch '{branch_name}' and set the upstream."
+        )
+    else:
+        logger.info(f"Not setting upstream for '{branch_name}'.")
 
 
 def main():
-    if len(sys.argv) == 1 or (len(sys.argv) == 2 and sys.argv[1].lower() == "help"):
-        show_help()
+    parser = argparse.ArgumentParser(
+        description="Interact with JIRA and Git for branch management."
+    )
+    parser.add_argument(
+        "--ticket",
+        "-t",
+        help='The JIRA ticket ID (e.g., SRE-1234). If only a number is provided, the default prefix "SRE-" will be used.',
+    )
+    parser.add_argument(
+        "--no-upstream",
+        action="store_true",
+        help="Do not set upstream for the new branch.",
+    )
+    parser.add_argument(
+        "-v", "--verbose", action="store_true", help="Increase output verbosity"
+    )
+    parser.add_argument(
+        "--issue-type",
+        help="Set the type of issue for the branch prefix, overrides default issue type detection",
+    )
+
+    args = parser.parse_args()
+
+    # Set logging level based on verbosity flag
+    if args.verbose:
+        logger.setLevel(logging.DEBUG)
+
+    if not args.ticket:
+        parser.print_help()
         sys.exit(0)
 
     change_to_git_root()
@@ -104,34 +118,23 @@ def main():
     jira_api_token = os.environ.get("JIRA_API_TOKEN")
 
     if not jira_email or not jira_api_token:
-        logging.error(
-            "JIRA_EMAIL and JIRA_API_TOKEN environment variables must be set."
-        )
+        logger.error("JIRA_EMAIL and JIRA_API_TOKEN environment variables must be set.")
         sys.exit(1)
 
     jira_ticket_prefix = os.getenv("JIRA_TICKET_PREFIX", "SRE")
 
-    if len(sys.argv) == 2 and re.match(r"\d+", sys.argv[1]):
-        ticket_id = f"{jira_ticket_prefix}-{sys.argv[1]}"
-    elif len(sys.argv) == 2 and re.match(r"([A-Z]+-)?\d+", sys.argv[1]):
-        ticket_id = sys.argv[1]
-    else:
-        ticket_input = input(
-            f"Enter the JIRA ticket ID (e.g., '{jira_ticket_prefix}-1234' or just '1234' for default prefix): "
-        )
-        if re.match(r"\d+", ticket_input):
-            ticket_id = f"{jira_ticket_prefix}-{ticket_input}"
-        else:
-            ticket_id = ticket_input
+    ticket_id = args.ticket
+    if re.match(r"\d+", ticket_id):
+        ticket_id = f"{jira_ticket_prefix}-{ticket_id}"
 
     if not re.match(r"([A-Z]+-)?\d+", ticket_id):
-        logging.error("Invalid ticket ID format.")
+        logger.error("Invalid ticket ID format.")
         sys.exit(1)
 
     branch_name = get_branch_name_based_on_jira_ticket(
-        jira_server, jira_email, jira_api_token, ticket_id
+        jira_server, jira_email, jira_api_token, ticket_id, args.issue_type
     )
-    create_git_branch_and_set_upstream(branch_name)
+    create_git_branch_and_set_upstream(branch_name, not args.no_upstream)
 
 
 if __name__ == "__main__":
