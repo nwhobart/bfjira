@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 
-import os
-import sys
-import re
-import logging
 import argparse
+import logging
+import os
+import re
+import subprocess
+import sys
 from git import Repo
 from jira import JIRA
 
