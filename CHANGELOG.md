@@ -2,6 +2,19 @@
 
 
 
+## v0.4.1 (2023-11-13)
+
+### Fix
+
+* fix: refactor part 1 ([`750d784`](https://github.com/nwhobart/bfjira/commit/750d7847460299f75709bb617e131cc4a4f41667))
+
+### Unknown
+
+* Merge pull request #16 from nwhobart/refactoring_for_clarity
+
+fix: refactor part 1 ([`e80bdf1`](https://github.com/nwhobart/bfjira/commit/e80bdf1b470f9a4e748a8dfbc803987cd2e3e35e))
+
+
 ## v0.4.0 (2023-11-13)
 
 ### Feature
