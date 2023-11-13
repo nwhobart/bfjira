@@ -2,6 +2,19 @@
 
 
 
+## v0.4.3 (2023-11-13)
+
+### Fix
+
+* fix: changing imports syntax ([`687fa23`](https://github.com/nwhobart/bfjira/commit/687fa23600756ae6275c82d3ad393f6fb0cbd95a))
+
+### Unknown
+
+* Merge pull request #18 from nwhobart/fix3_importing_weirdness
+
+fix: changing imports syntax ([`57eaa7c`](https://github.com/nwhobart/bfjira/commit/57eaa7c21fc2317be2488e79a2f6775cea9e4d86))
+
+
 ## v0.4.2 (2023-11-13)
 
 ### Fix
