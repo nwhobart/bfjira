@@ -19,7 +19,7 @@ bfjira = 'bfjira.main:main'
 
 [tool.semantic_release]
 version_variable = [
-    "bfira/__init__.py:__version__"
+    "bfjira/__init__.py:__version__"
 ]
 version_toml = [
     "pyproject.toml:tool.poetry.version"
