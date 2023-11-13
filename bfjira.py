@@ -6,13 +6,45 @@ import os
 import re
 import subprocess
 import sys
+from colorlog import ColoredFormatter
 from git import Repo
 from jira import JIRA
 from jira.exceptions import JIRAError
 
 # Set up logging
-logger = logging.getLogger()
-logging.basicConfig(level=logging.INFO)
+def setup_logging():
+    # Define log format
+    log_format = "%(log_color)s%(asctime)s %(levelname)s: %(message)s"
+
+    #Create a Colored Log formatter
+    formatter = ColoredFormatter(
+        log_format,
+        datefmt="%Y-%m-%d %H:%M:%S",
+        reset=True,
+        log_colors={
+            'DEBUG': 'cyan',
+            'INFO': 'green',
+            'WARNING': 'yellow',
+            'ERROR': 'red',
+            'CRITICAL': 'red,bg_white',
+        },
+        secondary_log_colors={},
+        style='%'
+    )
+
+    # Create a handler
+    handler = logging.StreamHandler()
+    handler.setFormatter(formatter)
+
+    # Get the logger and set the log level
+    logger = logging.getLogger('bfjira')
+    logger.setLevel(logging.INFO)
+    logger.addHandler(handler)
+    logger.propagate = False
+
+    return logger
+
+logger = setup_logging()
 
 
 def change_to_git_root():
@@ -77,7 +109,7 @@ def get_branch_name_based_on_jira_ticket(
 def create_git_branch_and_set_upstream(branch_name, jira, ticket_id, set_upstream=True):
     repo = Repo()
     if repo.is_dirty():
-        logger.info("Please commit your changes before creating a new branch.")
+        logger.error("Please commit your changes before creating a new branch.")
         return
     origin = repo.remotes.origin
     logger.info("Pulling the latest changes from the remote repository...")
@@ -169,7 +201,6 @@ def main():
     create_git_branch_and_set_upstream(
         branch_name, jira, ticket_id, not args.no_upstream
     )
-
 
 if __name__ == "__main__":
     main()
