@@ -6,12 +6,45 @@ import os
 import re
 import subprocess
 import sys
+from colorlog import ColoredFormatter
 from git import Repo
 from jira import JIRA
+from jira.exceptions import JIRAError
 
 # Set up logging
-logger = logging.getLogger()
-logging.basicConfig(level=logging.INFO)
+def setup_logging():
+    # Define log format
+    log_format = "%(log_color)s%(asctime)s %(levelname)s: %(message)s"
+
+    #Create a Colored Log formatter
+    formatter = ColoredFormatter(
+        log_format,
+        datefmt="%Y-%m-%d %H:%M:%S",
+        reset=True,
+        log_colors={
+            'DEBUG': 'cyan',
+            'INFO': 'green',
+            'WARNING': 'yellow',
+            'ERROR': 'red',
+            'CRITICAL': 'red,bg_white',
+        },
+        secondary_log_colors={},
+        style='%'
+    )
+
+    # Create a handler
+    handler = logging.StreamHandler()
+    handler.setFormatter(formatter)
+
+    # Get the logger and set the log level
+    logger = logging.getLogger('bfjira')
+    logger.setLevel(logging.INFO)
+    logger.addHandler(handler)
+    logger.propagate = False
+
+    return logger
+
+logger = setup_logging()
 
 
 def change_to_git_root():
@@ -27,6 +60,26 @@ def change_to_git_root():
 
 def sanitize_branch_name(name):
     return re.sub(r"[^a-zA-Z0-9-_]", "", name.replace(" ", "_"))
+
+
+def get_transition_id_for_in_progress(jira, ticket_id):
+    try:
+        transitions = jira.transitions(ticket_id)
+        for transition in transitions:
+            if transition["name"].lower() == "in progress":
+                return transition["id"]
+        raise ValueError("Transition to 'In Progress' not found.")
+    except JIRAError as e:
+        logger.error(f"Error fetching transitions for ticket {ticket_id}: {e}")
+        return None
+
+
+def transition_jira_ticket_to_in_progress(jira, ticket_id, transition_id):
+    try:
+        jira.transition_issue(ticket_id, transition_id)
+        logger.info(f"Ticket {ticket_id} moved to 'In Progress'.")
+    except JIRAError as e:
+        logger.error(f"Failed to move ticket {ticket_id} to 'In Progress': {e}")
 
 
 def get_branch_name_based_on_jira_ticket(
@@ -53,10 +106,10 @@ def get_branch_name_based_on_jira_ticket(
     return branch_name
 
 
-def create_git_branch_and_set_upstream(branch_name, set_upstream=True):
+def create_git_branch_and_set_upstream(branch_name, jira, ticket_id, set_upstream=True):
     repo = Repo()
     if repo.is_dirty():
-        logger.info("Please commit your changes before creating a new branch.")
+        logger.error("Please commit your changes before creating a new branch.")
         return
     origin = repo.remotes.origin
     logger.info("Pulling the latest changes from the remote repository...")
@@ -78,8 +131,23 @@ def create_git_branch_and_set_upstream(branch_name, set_upstream=True):
     else:
         logger.info(f"Not setting upstream for '{branch_name}'.")
 
+    # Transition JIRA ticket to 'In Progress' after branch creation
+    transition_id = get_transition_id_for_in_progress(jira, ticket_id)
+    if transition_id:
+        transition_jira_ticket_to_in_progress(jira, ticket_id, transition_id)
+    else:
+        logger.warning(
+            f"Could not find 'In Progress' transition for ticket {ticket_id}"
+        )
+
 
 def main():
+    jira_server = os.environ.get("JIRA_SERVER")
+    jira_email = os.environ.get("JIRA_EMAIL")
+    jira_api_token = os.environ.get("JIRA_API_TOKEN")
+
+    jira = JIRA(server=jira_server, basic_auth=(jira_email, jira_api_token))
+
     parser = argparse.ArgumentParser(
         description="Interact with JIRA and Git for branch management."
     )
@@ -113,10 +181,6 @@ def main():
 
     change_to_git_root()
 
-    jira_server = os.environ.get("JIRA_SERVER")
-    jira_email = os.environ.get("JIRA_EMAIL")
-    jira_api_token = os.environ.get("JIRA_API_TOKEN")
-
     if not jira_email or not jira_api_token:
         logger.error("JIRA_EMAIL and JIRA_API_TOKEN environment variables must be set.")
         sys.exit(1)
@@ -134,8 +198,9 @@ def main():
     branch_name = get_branch_name_based_on_jira_ticket(
         jira_server, jira_email, jira_api_token, ticket_id, args.issue_type
     )
-    create_git_branch_and_set_upstream(branch_name, not args.no_upstream)
-
+    create_git_branch_and_set_upstream(
+        branch_name, jira, ticket_id, not args.no_upstream
+    )
 
 if __name__ == "__main__":
     main()
