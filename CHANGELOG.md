@@ -2,6 +2,31 @@
 
 
 
+## v0.4.0 (2023-11-13)
+
+### Feature
+
+* feat: additions ([`376fb63`](https://github.com/nwhobart/bfjira/commit/376fb6345fc078fa1d596e0532527b47247a03c4))
+
+### Fix
+
+* fix: new logger ([`245134d`](https://github.com/nwhobart/bfjira/commit/245134dc2ef48fcd377b3beccc50668ea53a7650))
+
+### Unknown
+
+* Merge pull request #15 from nwhobart/switch_to_flags_and_update_readme
+
+feat: additions ([`3e0d3a0`](https://github.com/nwhobart/bfjira/commit/3e0d3a018b73c9b3a3c440350c7e483118437435))
+
+* Merge pull request #14 from nwhobart/switch_to_flags_and_update_readme
+
+switching to flags and updating readme ([`f708f57`](https://github.com/nwhobart/bfjira/commit/f708f5732f31d929abb168f0a6dba75f7e18d3b6))
+
+* forgot about subprocess ([`15dd9ed`](https://github.com/nwhobart/bfjira/commit/15dd9eddba0224ca7b66956d3482dff3c0735934))
+
+* switching to flasg and updating readme ([`57a1711`](https://github.com/nwhobart/bfjira/commit/57a17115e6675c8c3663884a704810105a56f511))
+
+
 ## v0.3.0 (2023-11-09)
 
 ### Feature
