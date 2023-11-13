@@ -3,9 +3,9 @@
 import argparse
 import os
 import sys
-from jira_utils import get_client, branch_name, transition_to_in_progress
-from git_utils import to_git_root, create_branch, sanitize_name
-from log_config import setup_logging
+from .jira_utils import get_client, branch_name, transition_to_in_progress
+from .git_utils import to_git_root, create_branch, sanitize_name
+from .log_config import setup_logging
 
 def main():
 
