@@ -2,6 +2,21 @@
 
 
 
+## v0.4.2 (2023-11-13)
+
+### Fix
+
+* fix: typo ([`3a77e4a`](https://github.com/nwhobart/bfjira/commit/3a77e4a638c6c3a74dabc68c3707cfa733f01c1c))
+
+* fix: converting to a proper project ([`d6fbae6`](https://github.com/nwhobart/bfjira/commit/d6fbae68621256603aeb7cb3f944f6bcf4b69437))
+
+### Unknown
+
+* Merge pull request #17 from nwhobart/fix2_script_madness
+
+fix2 script madness ([`4a27335`](https://github.com/nwhobart/bfjira/commit/4a273352409bd7d310af2d6d6fb19e04d3ab0108))
+
+
 ## v0.4.1 (2023-11-13)
 
 ### Fix
