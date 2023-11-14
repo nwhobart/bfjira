@@ -2,6 +2,19 @@
 
 
 
+## v0.4.4 (2023-11-14)
+
+### Fix
+
+* fix: trying to fix branch creation. i have to write tests eventually ([`0d4f846`](https://github.com/nwhobart/bfjira/commit/0d4f84606645906ebefba5bbc475f9ac4363058d))
+
+### Unknown
+
+* Merge pull request #19 from nwhobart/fixing_the_branch_creation
+
+fix: trying to fix branch creation. i have to write tests eventually ([`976f495`](https://github.com/nwhobart/bfjira/commit/976f4957c84ff860df932d9d88101d53daa296ab))
+
+
 ## v0.4.3 (2023-11-13)
 
 ### Fix
