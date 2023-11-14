@@ -4,7 +4,7 @@ import argparse
 import os
 import sys
 from bfjira.jira_utils import get_client, branch_name, transition_to_in_progress
-from bfjira.git_utils import to_git_root, create_branch, sanitize_name
+from bfjira.git_utils import to_git_root, create_branch
 from bfjira.log_config import setup_logging
 
 def main():
@@ -42,9 +42,12 @@ def main():
     # Initialize JIRA client
     jira = get_client(jira_server, jira_email, jira_api_token)
 
+    # Generate branch name based on JIRA ticket
+    generated_branch_name = branch_name(jira, ticket_id, args.issue_type)
+
     # Perform Git operations
     to_git_root()
-    create_branch(sanitize_name(branch_name(jira, ticket_id, args.issue_type)), not args.no_upstream)
+    create_branch(generated_branch_name, not args.no_upstream)
 
     # Transition JIRA ticket to 'In Progress'
     transition_to_in_progress(jira, ticket_id)
