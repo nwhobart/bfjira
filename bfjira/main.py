@@ -44,7 +44,7 @@ def main():
 
     # Perform Git operations
     to_git_root()
-    create_branch(branch_name, not args.no_upstream)
+    create_branch(branch_name(), not args.no_upstream)
 
     # Transition JIRA ticket to 'In Progress'
     transition_to_in_progress(jira, ticket_id)
