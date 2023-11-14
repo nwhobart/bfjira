@@ -2,6 +2,23 @@
 
 
 
+## v0.4.6 (2023-11-14)
+
+### Fix
+
+* fix: updating readme (#22) ([`86bb575`](https://github.com/nwhobart/bfjira/commit/86bb575fccf6283d59c8e97e4eb8a93734ff9702))
+
+### Unknown
+
+* fixing branch naming (#21)
+
+* fix: branch name getting double sanitized
+
+* fix: maybe this works?
+
+* fix: now i&#39;m confusing myself and it&#39;s late ([`a486045`](https://github.com/nwhobart/bfjira/commit/a4860459ef2d15e93febe61d2b975bf73d694997))
+
+
 ## v0.4.5 (2023-11-14)
 
 ### Fix
