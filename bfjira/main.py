@@ -42,13 +42,10 @@ def main():
     # Initialize JIRA client
     jira = get_client(jira_server, jira_email, jira_api_token)
 
-    # Generate branch name based on JIRA ticket
-    ticket_branch_name = branch_name(jira, ticket_id, args.issue_type)
-
     # Perform Git operations
     to_git_root()
     sanitize_name()
-    create_branch(ticket_branch_name, not args.no_upstream)
+    create_branch(sanitize_name(branch_name(jira, ticket_id, args.issue_type)), not args.no_upstream)
 
     # Transition JIRA ticket to 'In Progress'
     transition_to_in_progress(jira, ticket_id)
