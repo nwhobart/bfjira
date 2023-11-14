@@ -1,10 +1,10 @@
-# BFJira - Branch Management with JIRA Integration
+# bfjira - Branch Management with JIRA Integration
 
-BFJira is a command-line utility that simplifies the process of creating Git branches based on JIRA ticket information. It ensures that branch names are consistent and informative by incorporating the issue type and summary from the JIRA ticket.
+bfjira (branch from Jira) is a command-line utility that simplifies the process of creating Git branches based on JIRA ticket information. It ensures that branch names are consistent and informative by incorporating the issue type and summary from the JIRA ticket.
 
 ## Installation
 
-The recommended way to install BFJira is via `pip` from PyPI:
+The recommended way to install bfjira is via `pip` from PyPI:
 
 ```bash
 pip install bfjira
@@ -14,7 +14,7 @@ Make sure you have `pip` installed and are using a virtual environment if necess
 
 ## Usage
 
-To use BFJira, you must have the following environment variables set:
+To use bfjira, you must have the following environment variables set:
 
 - `JIRA_SERVER`: Your JIRA server URL.
 - `JIRA_EMAIL`: The email address associated with your JIRA account.
@@ -36,7 +36,7 @@ Optionally, you can set the `JIRA_TICKET_PREFIX` environment variable to use a d
   bfjira --ticket SRE-1234
   ```
 
-  If you only have the ticket number, BFJira will use the default prefix ("SRE" or whatever is set in `JIRA_TICKET_PREFIX`):
+  If you only have the ticket number, bfjira will use the default prefix ("SRE" or whatever is set in `JIRA_TICKET_PREFIX`):
 
   ```bash
   bfjira -t 1234
@@ -64,8 +64,8 @@ Optionally, you can set the `JIRA_TICKET_PREFIX` environment variable to use a d
 
 ## Contributing
 
-Contributions to BFJira are welcome! Please read the contributing guidelines before submitting pull requests.
+Contributions to bfjira are welcome! Please read the contributing guidelines before submitting pull requests.
 
 ## License
 
-BFJira is released under the GNU General Public License. See the [LICENSE](LICENSE) file for more details.
+bfjira is released under the GNU General Public License. See the [LICENSE](LICENSE) file for more details.
