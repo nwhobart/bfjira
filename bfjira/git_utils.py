@@ -41,9 +41,3 @@ def create_branch(branch_name, set_upstream=True):
     except Exception as e:
         logger.error(f"Error while creating Git branch '{branch_name}': {e}")
         raise
-
-def sanitize_name(name):
-    """
-    Sanitize a string to be used as a Git branch name.
-    """
-    return re.sub(r"[^a-zA-Z0-9-_]", "", name.replace(" ", "_"))
