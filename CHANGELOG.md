@@ -2,6 +2,13 @@
 
 
 
+## v0.4.5 (2023-11-14)
+
+### Fix
+
+* fix: trying to fix the branch creation process (#20) ([`770fa98`](https://github.com/nwhobart/bfjira/commit/770fa983ad9f2ea9da0c8e3eef3bccaa80d80876))
+
+
 ## v0.4.4 (2023-11-14)
 
 ### Fix
