@@ -20,6 +20,8 @@ To use bfjira, you must have the following environment variables set:
 - `JIRA_EMAIL`: The email address associated with your JIRA account.
 - `JIRA_API_TOKEN`: Your JIRA API token.
 
+Instructions for creating a Jira API token can be found [here](https://support.atlassian.com/atlassian-account/docs/manage-api-tokens-for-your-atlassian-account/)
+
 Optionally, you can set the `JIRA_TICKET_PREFIX` environment variable to use a default prefix other than "SRE" for ticket IDs that are entered without a prefix.
 
 ### Basic Commands
