@@ -2,6 +2,21 @@
 
 
 
+## v0.5.0 (2023-11-24)
+
+### Feature
+
+* feat: adding no-progress functionality. mapping sub-task to task (#24) ([`59e7df8`](https://github.com/nwhobart/bfjira/commit/59e7df840c6eabe7bb3bd0c5b104ed9dc50584ac))
+
+### Unknown
+
+* update readme (#23)
+
+* chore: black workflow. black formatting. readme updates
+
+* chore: adding pypi badge ([`c6252b0`](https://github.com/nwhobart/bfjira/commit/c6252b016d978ed25c1a97f0b24ef3cf0b3368a2))
+
+
 ## v0.4.6 (2023-11-14)
 
 ### Fix
