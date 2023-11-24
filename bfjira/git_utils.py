@@ -5,7 +5,8 @@ import subprocess
 import sys
 import logging
 
-logger = logging.getLogger('bfjira')
+logger = logging.getLogger("bfjira")
+
 
 def to_git_root():
     try:
@@ -23,7 +24,7 @@ def create_branch(branch_name, set_upstream=True):
     Create a new Git branch and optionally set upstream.
     """
     try:
-        repo = Repo('.')
+        repo = Repo(".")
         if repo.is_dirty():
             logger.error("Repository has uncommitted changes.")
             sys.exit(1)

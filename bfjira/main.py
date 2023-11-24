@@ -7,14 +7,25 @@ from bfjira.jira_utils import get_client, branch_name, transition_to_in_progress
 from bfjira.git_utils import to_git_root, create_branch
 from bfjira.log_config import setup_logging
 
-def main():
 
+def main():
     # Parse command-line arguments
-    parser = argparse.ArgumentParser(description="Interact with JIRA and Git for branch management.")
+    parser = argparse.ArgumentParser(
+        description="Interact with JIRA and Git for branch management."
+    )
     parser.add_argument("--ticket", "-t", help="The JIRA ticket ID (e.g., SRE-1234).")
-    parser.add_argument("--no-upstream", action="store_true", help="Do not set upstream for the new branch.")
-    parser.add_argument("--verbose", "-v", action="store_true", help="Increase output verbosity")
-    parser.add_argument("--issue-type", help="Set the type of issue for the branch prefix, overrides default issue type detection")
+    parser.add_argument(
+        "--no-upstream",
+        action="store_true",
+        help="Do not set upstream for the new branch.",
+    )
+    parser.add_argument(
+        "--verbose", "-v", action="store_true", help="Increase output verbosity"
+    )
+    parser.add_argument(
+        "--issue-type",
+        help="Set the type of issue for the branch prefix, overrides default issue type detection",
+    )
 
     args = parser.parse_args()
 
@@ -32,7 +43,9 @@ def main():
     jira_ticket_prefix = os.getenv("JIRA_TICKET_PREFIX", "SRE")
 
     if not all([jira_server, jira_email, jira_api_token]):
-        logger.error("JIRA_SERVER, JIRA_EMAIL, and JIRA_API_TOKEN environment variables must be set.")
+        logger.error(
+            "JIRA_SERVER, JIRA_EMAIL, and JIRA_API_TOKEN environment variables must be set."
+        )
         sys.exit(1)
 
     ticket_id = args.ticket
@@ -51,6 +64,7 @@ def main():
 
     # Transition JIRA ticket to 'In Progress'
     transition_to_in_progress(jira, ticket_id)
+
 
 if __name__ == "__main__":
     main()
