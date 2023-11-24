@@ -28,6 +28,8 @@ def branch_name(jira, ticket_id, issue_type_override=None):
             if issue_type == "story"
             else "fix"
             if issue_type == "bug"
+            else "task"
+            if issue_type == "sub-task"
             else issue_type_override
             if issue_type_override
             else issue_type

@@ -11,13 +11,13 @@ from bfjira.log_config import setup_logging
 def main():
     # Parse command-line arguments
     parser = argparse.ArgumentParser(
-        description="Interact with JIRA and Git for branch management."
+        description="Interact with JIRA and Git for branch management"
     )
     parser.add_argument("--ticket", "-t", help="The JIRA ticket ID (e.g., SRE-1234).")
     parser.add_argument(
         "--no-upstream",
         action="store_true",
-        help="Do not set upstream for the new branch.",
+        help="Do not set upstream for the new branch",
     )
     parser.add_argument(
         "--verbose", "-v", action="store_true", help="Increase output verbosity"
@@ -25,6 +25,11 @@ def main():
     parser.add_argument(
         "--issue-type",
         help="Set the type of issue for the branch prefix, overrides default issue type detection",
+    )
+    parser.add_argument(
+        "--no-progress",
+        action="store_true",
+        help="Do not transition the ticket to 'In Progress'",
     )
 
     args = parser.parse_args()
@@ -63,7 +68,12 @@ def main():
     create_branch(generated_branch_name, not args.no_upstream)
 
     # Transition JIRA ticket to 'In Progress'
-    transition_to_in_progress(jira, ticket_id)
+    if not args.no_progress:
+        transition_to_in_progress(jira, ticket_id)
+    else:
+        logger.info(
+            f"Ticket {ticket_id} not transitioned to 'In Progress' as per user request."
+        )
 
 
 if __name__ == "__main__":

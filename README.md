@@ -67,6 +67,14 @@ Optionally, you can set the `JIRA_TICKET_PREFIX` environment variable to use a d
   bfjira -t 1234 -v
   ```
 
+- Optionally prevent transitioning the ticket to 'In Progress':
+
+  By default, the script transitions the specified JIRA ticket to 'In Progress'. If you wish to create a branch for the ticket without changing its status, use the `--no-progress` flag. This is useful when you need to perform operations on the ticket without indicating that work has started.
+
+  ```bash
+  bfjira -t 1234 --no-progress
+  ```
+
 ## Contributing
 
 Contributions to bfjira are welcome! Please read the contributing guidelines before submitting pull requests.
