@@ -1,3 +1,6 @@
+![PyPI - Version](https://img.shields.io/pypi/v/bfjira)
+
+
 # bfjira - Branch Management with JIRA Integration
 
 bfjira (branch from Jira) is a command-line utility that simplifies the process of creating Git branches based on JIRA ticket information. It ensures that branch names are consistent and informative by incorporating the issue type and summary from the JIRA ticket.
