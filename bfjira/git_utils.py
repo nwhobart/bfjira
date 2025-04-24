@@ -1,9 +1,10 @@
-from git import Repo
+import logging
 import os
 import re
 import subprocess
 import sys
-import logging
+
+from git import Repo
 
 logger = logging.getLogger("bfjira")
 

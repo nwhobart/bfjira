@@ -3,8 +3,9 @@
 import argparse
 import os
 import sys
-from bfjira.jira_utils import get_client, branch_name, transition_to_in_progress
-from bfjira.git_utils import to_git_root, create_branch
+
+from bfjira.git_utils import create_branch, to_git_root
+from bfjira.jira_utils import branch_name, get_client, transition_to_in_progress
 from bfjira.log_config import setup_logging
 
 

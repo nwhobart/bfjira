@@ -1,8 +1,9 @@
 """JIRA utility functions."""
 
-from jira import JIRA
 import logging
 import re
+
+from jira import JIRA
 
 logger = logging.getLogger("bfjira")
 
