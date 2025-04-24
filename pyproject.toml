@@ -48,10 +48,10 @@ version_toml = [
     "pyproject.toml:tool.poetry.version"
 ]
 version_pattern = [
-    "README.md:rev: v{version}",
+    "README.md:rev: v{version}"
 ]
 commit_parser = "angular"
 commit_parser_options = {
-    "header_pattern": "^(\w*)(?:\((.*)\))?: (.*)$",
+    "header_pattern": "^([a-zA-Z]*)(?:\\((.*)\\))?: (.*)$",
     "header_correspondence": ["type", "scope", "subject"]
 }
