@@ -1,19 +1,25 @@
+"""Test suite for JIRA utilities."""
+
 import pytest
 from unittest.mock import Mock, patch, MagicMock
 from bfjira.jira_utils import get_client, branch_name, transition_to_in_progress
 
 
-def test_get_client():
-    with patch("jira.JIRA") as mock_jira:
-        mock_jira.return_value = "mock_client"
-        client = get_client("https://server", "email", "token")
-        assert client == "mock_client"
-        mock_jira.assert_called_once_with(
-            server="https://server", basic_auth=("email", "token")
-        )
+@patch("bfjira.jira_utils.JIRA")
+def test_get_client(mock_jira_class):
+    """Test JIRA client initialization."""
+    mock_instance = Mock()
+    mock_jira_class.return_value = mock_instance
+
+    client = get_client("https://server", "email", "token")
+    assert client == mock_instance
+    mock_jira_class.assert_called_once_with(
+        server="https://server", basic_auth=("email", "token")
+    )
 
 
 def test_branch_name():
+    """Test branch name generation."""
     mock_jira = Mock()
     mock_issue = Mock()
     mock_issue.fields.issuetype.name = "Story"
@@ -25,10 +31,9 @@ def test_branch_name():
 
 
 def test_transition_to_in_progress():
+    """Test transitioning a ticket to In Progress."""
     mock_jira = Mock()
-    mock_transition = MagicMock()
-    mock_transition.__getitem__.return_value = "In Progress"
-    mock_transition.id = "123"
+    mock_transition = {"id": "123", "name": "In Progress"}
     mock_jira.transitions.return_value = [mock_transition]
 
     transition_to_in_progress(mock_jira, "TEST-123")
