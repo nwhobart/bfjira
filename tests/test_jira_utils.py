@@ -4,11 +4,7 @@ from unittest.mock import MagicMock, Mock, patch
 
 import pytest
 
-from bfjira.jira_utils import (
-    branch_name,
-    get_client,
-    transition_to_in_progress,
-)
+from bfjira.jira_utils import branch_name, get_client, transition_to_in_progress
 
 
 @patch("bfjira.jira_utils.JIRA")
