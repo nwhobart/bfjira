@@ -66,21 +66,38 @@ jobs:
       - name: Build package
         run: poetry build
 
-      - name: Get version
-        id: get_version
-        run: echo "version=$(poetry version -s)" >> $GITHUB_OUTPUT
-
+      - name: Get version and check tag
+        id: version
+        run: |
+          current_version=$(poetry version -s)
+          echo "current_version=$current_version" >> $GITHUB_OUTPUT
+          
+          # Check if tag exists and increment patch version if it does
+          while git tag | grep -q "v$current_version"; do
+            # Split version into major.minor.patch
+            IFS='.' read -r major minor patch <<< "$current_version"
+            # Increment patch
+            new_patch=$((patch + 1))
+            current_version="$major.$minor.$new_patch"
+            # Update poetry version
+            poetry version $current_version
+          done
+          
+          echo "final_version=$current_version" >> $GITHUB_OUTPUT
+          
       - name: Create tag
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
-          git tag -a "v${{ steps.get_version.outputs.version }}" -m "Release v${{ steps.get_version.outputs.version }}"
-          git push origin "v${{ steps.get_version.outputs.version }}"
+          git add pyproject.toml
+          git commit -m "chore: bump version to ${{ steps.version.outputs.final_version }}"
+          git tag -a "v${{ steps.version.outputs.final_version }}" -m "Release v${{ steps.version.outputs.final_version }}"
+          git push origin main --tags
         
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
-          tag_name: v${{ steps.get_version.outputs.version }}
+          tag_name: v${{ steps.version.outputs.final_version }}
           files: dist/*
           generate_release_notes: true
           token: ${{ secrets.REPO_ADMIN_TOKEN }}
