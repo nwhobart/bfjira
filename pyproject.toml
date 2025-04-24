@@ -49,3 +49,8 @@ commit_parser = "angular"
 [tool.semantic_release.commit_parser_options]
 header_pattern = "^([a-zA-Z]*)(?:\\((.*)\\))?: (.*)$"
 header_correspondence = ["type", "scope", "subject"]
+
+[tool.black]
+line-length = 88
+target-version = ['py310']
+include = '\.pyi?$'
