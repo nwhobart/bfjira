@@ -21,19 +21,15 @@ def branch_name(jira, ticket_id, issue_type_override=None):
     try:
         ticket = jira.issue(ticket_id)
         issue_type = ticket.fields.issuetype.name.lower()
-        branch_prefix = (
-            "feature"
-            if issue_type == "story"
-            else (
-                "fix"
-                if issue_type == "bug"
-                else (
-                    "task"
-                    if issue_type == "sub-task"
-                    else issue_type_override if issue_type_override else issue_type
-                )
-            )
-        )
+        if issue_type == "story":
+            branch_prefix = "feature"
+        elif issue_type == "bug":
+            branch_prefix = "fix"
+        elif issue_type == "sub-task":
+            branch_prefix = "task"
+        else:
+            branch_prefix = issue_type_override if issue_type_override else issue_type
+
         sanitized_summary = re.sub(
             r"[^a-zA-Z0-9-_]", "", ticket.fields.summary.replace(" ", "_")
         ).lower()
