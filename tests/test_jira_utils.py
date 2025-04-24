@@ -1,8 +1,6 @@
 """Test suite for JIRA utilities."""
 
-from unittest.mock import MagicMock, Mock, patch
-
-import pytest
+from unittest.mock import Mock, patch
 
 from bfjira.jira_utils import branch_name, get_client, transition_to_in_progress
 

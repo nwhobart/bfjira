@@ -25,7 +25,10 @@ def main():
     )
     parser.add_argument(
         "--issue-type",
-        help="Set the type of issue for the branch prefix, overrides default issue type detection",
+        help=(
+            "Set the type of issue for the branch prefix, "
+            "overrides default issue type detection"
+        ),
     )
     parser.add_argument(
         "--no-progress",
@@ -50,7 +53,8 @@ def main():
 
     if not all([jira_server, jira_email, jira_api_token]):
         logger.error(
-            "JIRA_SERVER, JIRA_EMAIL, and JIRA_API_TOKEN environment variables must be set."
+            "JIRA_SERVER, JIRA_EMAIL, and JIRA_API_TOKEN "
+            "environment variables must be set."
         )
         sys.exit(1)
 
@@ -73,7 +77,8 @@ def main():
         transition_to_in_progress(jira, ticket_id)
     else:
         logger.info(
-            f"Ticket {ticket_id} not transitioned to 'In Progress' as per user request."
+            f"Ticket {ticket_id} not transitioned to 'In Progress' "
+            "as per user request."
         )
 
 
