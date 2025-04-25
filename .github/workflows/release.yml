@@ -69,30 +69,34 @@ jobs:
           current_version=$(poetry version -s)
           echo "current_version=$current_version" >> $GITHUB_OUTPUT
           
-          # Get the commit message of the merged PR
-          commit_message=$(git log -1 --pretty=%B)
+          # Get the PR title from the event payload
+          pr_title="${{ github.event.pull_request.title }}"
+          echo "PR Title: $pr_title"
           
-          # Determine version bump based on commit type
-          if [[ $commit_message =~ ^feat ]]; then
-            # Feature commit - bump minor version
+          # Determine version bump based on PR title
+          if [[ $pr_title =~ ^feat ]]; then
+            # Feature PR - bump minor version
             IFS='.' read -r major minor patch <<< "$current_version"
             new_minor=$((minor + 1))
             current_version="$major.$new_minor.0"
-          elif [[ $commit_message =~ ^(fix|bugfix) ]]; then
-            # Fix commit - bump patch version
+            echo "Bumping minor version for feature"
+          elif [[ $pr_title =~ ^(fix|bugfix) ]]; then
+            # Fix PR - bump patch version
             IFS='.' read -r major minor patch <<< "$current_version"
             new_patch=$((patch + 1))
             current_version="$major.$minor.$new_patch"
+            echo "Bumping patch version for fix"
           else
             # Default to patch version for other changes
             IFS='.' read -r major minor patch <<< "$current_version"
             new_patch=$((patch + 1))
             current_version="$major.$minor.$new_patch"
+            echo "Bumping patch version for other changes"
           fi
           
           # Check if tag exists and increment accordingly
           while git tag | grep -q "v$current_version"; do
-            if [[ $commit_message =~ ^feat ]]; then
+            if [[ $pr_title =~ ^feat ]]; then
               new_minor=$((minor + 1))
               current_version="$major.$new_minor.0"
             else
