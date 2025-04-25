@@ -89,6 +89,8 @@ jobs:
         run: |
           git config --global user.name "GitHub Actions"
           git config --global user.email "actions@github.com"
+          # Pull the latest changes from main to avoid non-fast-forward errors
+          git pull origin main
           git add pyproject.toml
           git commit -m "chore: bump version to ${{ steps.version.outputs.final_version }}"
           git tag -a "v${{ steps.version.outputs.final_version }}" -m "Release v${{ steps.version.outputs.final_version }}"
