@@ -75,6 +75,10 @@ Optionally, you can set the `JIRA_TICKET_PREFIX` environment variable to use a d
   bfjira -t 1234 --no-progress
   ```
 
+- Handle uncommitted changes:
+
+  If `bfjira` detects uncommitted changes (including untracked files) in your repository, it will prompt you before proceeding. You can choose to have the script automatically stash these changes. The stash will be automatically popped after the branch is successfully created and the JIRA ticket is transitioned. If you choose not to stash, the script will exit.
+
 ## Contributing
 
 Contributions to bfjira are welcome! Please read the contributing guidelines before submitting pull requests.
