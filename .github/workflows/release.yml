@@ -66,7 +66,12 @@ jobs:
       - name: Get version and check tag
         id: version
         run: |
-          current_version=$(poetry version -s)
+          # Get the highest version from tags
+          highest_version=$(git tag | grep '^v[0-9]' | sort -V | tail -n1 | sed 's/^v//')
+          echo "Highest version from tags: $highest_version"
+          
+          # Use the highest version as current version
+          current_version=$highest_version
           echo "current_version=$current_version" >> $GITHUB_OUTPUT
           
           # Get the PR title from the event payload
