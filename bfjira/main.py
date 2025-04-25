@@ -4,9 +4,11 @@ import argparse
 import os
 import sys
 
-from bfjira.git_utils import create_branch, to_git_root
+from bfjira.git_utils import create_branch, to_git_root, stash_changes, pop_stash
 from bfjira.jira_utils import branch_name, get_client, transition_to_in_progress
 from bfjira.log_config import setup_logging
+
+from git import Repo
 
 
 def main():
@@ -70,16 +72,36 @@ def main():
 
     # Perform Git operations
     to_git_root()
-    create_branch(generated_branch_name, not args.no_upstream)
+    repo = Repo(".")
+    needs_stash_pop = False
 
-    # Transition JIRA ticket to 'In Progress'
-    if not args.no_progress:
-        transition_to_in_progress(jira, ticket_id)
-    else:
-        logger.info(
-            f"Ticket {ticket_id} not transitioned to 'In Progress' "
-            "as per user request."
-        )
+    if repo.is_dirty(untracked_files=True):
+        logger.warning("Repository has uncommitted changes.")
+        response = input("Do you want to stash them? (y/n): ").lower()
+        if response == 'y':
+            if stash_changes():
+                needs_stash_pop = True
+            else:
+                logger.error("Failed to stash changes. Exiting.")
+                sys.exit(1)
+        else:
+            logger.info("Please commit or stash your changes manually. Exiting.")
+            sys.exit(0)
+
+    try:
+        create_branch(generated_branch_name, not args.no_upstream)
+
+        # Transition JIRA ticket to 'In Progress'
+        if not args.no_progress:
+            transition_to_in_progress(jira, ticket_id)
+        else:
+            logger.info(
+                f"Ticket {ticket_id} not transitioned to 'In Progress' "
+                "as per user request."
+            )
+    finally:
+        if needs_stash_pop:
+            pop_stash()
 
 
 if __name__ == "__main__":

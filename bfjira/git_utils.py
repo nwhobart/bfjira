@@ -19,16 +19,39 @@ def to_git_root():
         sys.exit(1)
 
 
+def stash_changes():
+    """Stash uncommitted changes."""
+    try:
+        repo = Repo(".")
+        repo.git.stash("push", "-u", "-m", "bfjira auto-stash")  # -u includes untracked
+        logger.info("Stashed uncommitted changes.")
+        return True
+    except Exception as e:
+        logger.error(f"Failed to stash changes: {e}")
+        return False
+
+
+def pop_stash():
+    """Pop the latest stash."""
+    try:
+        repo = Repo(".")
+        repo.git.stash("pop")
+        logger.info("Popped stashed changes.")
+    except Exception as e:
+        # Common issue: conflicts after pop. Log and inform, but don't crash.
+        logger.warning(f"Failed to pop stash cleanly: {e}")
+        logger.warning(
+            "You may need to resolve conflicts manually ('git status')."
+        )
+
+
 def create_branch(branch_name, set_upstream=True):
     """
     Create a new Git branch and optionally set upstream.
+    Assumes repository is clean or changes have been stashed.
     """
     try:
         repo = Repo(".")
-        if repo.is_dirty():
-            logger.error("Repository has uncommitted changes.")
-            sys.exit(1)
-
         origin = repo.remotes.origin
         origin.pull()
         logger.info("Pulled the latest changes from the remote repository.")
