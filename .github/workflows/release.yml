@@ -63,9 +63,6 @@ jobs:
           name: codecov-umbrella
           flags: unittests
         
-      - name: Build package
-        run: poetry build
-
       - name: Get version and check tag
         id: version
         run: |
@@ -85,6 +82,9 @@ jobs:
           
           echo "final_version=$current_version" >> $GITHUB_OUTPUT
           
+      - name: Build package
+        run: poetry build
+
       - name: Create tag
         run: |
           git config --global user.name "GitHub Actions"
