@@ -1,6 +1,6 @@
 import os
 import sys
-from unittest.mock import patch, MagicMock
+from unittest.mock import MagicMock, patch
 
 import pytest
 
@@ -11,12 +11,15 @@ from bfjira.main import main
 @pytest.fixture
 def mock_deps(mocker):
     # Mock environment variables
-    mocker.patch.dict(os.environ, {
-        "JIRA_SERVER": "https://jira.example.com",
-        "JIRA_EMAIL": "test@example.com",
-        "JIRA_API_TOKEN": "dummy-token",
-        "JIRA_TICKET_PREFIX": "TEST"
-    })
+    mocker.patch.dict(
+        os.environ,
+        {
+            "JIRA_SERVER": "https://jira.example.com",
+            "JIRA_EMAIL": "test@example.com",
+            "JIRA_API_TOKEN": "dummy-token",
+            "JIRA_TICKET_PREFIX": "TEST",
+        },
+    )
 
     mock_repo = MagicMock()
     mock_jira = MagicMock()
