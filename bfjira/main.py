@@ -78,7 +78,7 @@ def main():
     if repo.is_dirty(untracked_files=True):
         logger.warning("Repository has uncommitted changes.")
         response = input("Do you want to stash them? (y/n): ").lower()
-        if response == 'y':
+        if response == "y":
             if stash_changes():
                 needs_stash_pop = True
             else:

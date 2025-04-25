@@ -40,9 +40,7 @@ def pop_stash():
     except Exception as e:
         # Common issue: conflicts after pop. Log and inform, but don't crash.
         logger.warning(f"Failed to pop stash cleanly: {e}")
-        logger.warning(
-            "You may need to resolve conflicts manually ('git status')."
-        )
+        logger.warning("You may need to resolve conflicts manually ('git status').")
 
 
 def create_branch(branch_name, set_upstream=True):
