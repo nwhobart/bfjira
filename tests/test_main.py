@@ -5,6 +5,7 @@ from unittest.mock import MagicMock, patch
 import pytest
 
 from bfjira.main import main
+from bfjira import __version__
 
 
 # Mocks for external dependencies
@@ -147,3 +148,13 @@ def test_main_pop_stash_on_create_branch_error(mock_deps):
 
 
 # Add more tests as needed, e.g., for --no-progress, --no-upstream flags affecting mocks
+
+
+def test_main_version_flag(capsys):
+    """Ensure --version prints version and exits."""
+    with patch.object(sys, "argv", ["bfjira", "--version"]):
+        with pytest.raises(SystemExit) as excinfo:
+            main()
+    assert excinfo.value.code == 0
+    captured = capsys.readouterr()
+    assert __version__ in captured.out
