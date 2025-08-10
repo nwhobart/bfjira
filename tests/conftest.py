@@ -1,7 +1,8 @@
+import os
 import sys
 import types
-import os
 from unittest import mock
+
 import pytest
 
 # Ensure the package root is on the import path

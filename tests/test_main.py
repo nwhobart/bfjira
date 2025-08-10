@@ -4,8 +4,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from bfjira.main import main
 from bfjira import __version__
+from bfjira.main import main
 
 
 # Mocks for external dependencies
