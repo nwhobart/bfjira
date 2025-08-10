@@ -9,6 +9,7 @@ from git import Repo
 from bfjira.git_utils import create_branch, pop_stash, stash_changes, to_git_root
 from bfjira.jira_utils import branch_name, get_client, transition_to_in_progress
 from bfjira.log_config import setup_logging
+from bfjira import __version__
 
 
 def main():
@@ -37,6 +38,7 @@ def main():
         action="store_true",
         help="Do not transition the ticket to 'In Progress'",
     )
+    parser.add_argument("--version", action="version", version=__version__)
 
     args = parser.parse_args()
 

@@ -29,6 +29,12 @@ Optionally, you can set the `JIRA_TICKET_PREFIX` environment variable to use a d
 
 ### Basic Commands
 
+- Show version:
+
+  ```bash
+  bfjira --version
+  ```
+
 - Show help message:
 
   ```bash
