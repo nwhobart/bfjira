@@ -3,13 +3,12 @@
 import argparse
 import os
 import sys
+from importlib import metadata
 
-from git import Repo
-
-from bfjira.git_utils import create_branch, pop_stash, stash_changes, to_git_root
-from bfjira.jira_utils import branch_name, get_client, transition_to_in_progress
-from bfjira.log_config import setup_logging
-from bfjira import __version__
+try:
+    CLI_VERSION = metadata.version("bfjira")
+except metadata.PackageNotFoundError:
+    from . import __version__ as CLI_VERSION
 
 
 def main():
@@ -38,9 +37,14 @@ def main():
         action="store_true",
         help="Do not transition the ticket to 'In Progress'",
     )
-    parser.add_argument("--version", action="version", version=__version__)
+    parser.add_argument("--version", action="version", version=CLI_VERSION)
 
     args = parser.parse_args()
+
+    from git import Repo
+    from bfjira.git_utils import create_branch, pop_stash, stash_changes, to_git_root
+    from bfjira.jira_utils import branch_name, get_client, transition_to_in_progress
+    from bfjira.log_config import setup_logging
 
     logger = setup_logging(verbose=args.verbose)
 
