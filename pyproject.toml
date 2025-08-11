@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "bfjira"
-version = "0.7.1"
+version = "0.7.2"
 description = "Create Git branches from Jira tickets"
 authors = ["Nick Hobart <nick@hobart.io>"]
 readme = "README.md"
