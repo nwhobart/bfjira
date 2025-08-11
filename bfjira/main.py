@@ -26,7 +26,7 @@ def main():
         help="Do not set upstream for the new branch",
     )
     parser.add_argument(
-        "--verbose", "-v", action="store_true", help="Increase output verbosity"
+        "--verbose", action="store_true", help="Increase output verbosity"
     )
     parser.add_argument(
         "--issue-type",
@@ -40,7 +40,7 @@ def main():
         action="store_true",
         help="Do not transition the ticket to 'In Progress'",
     )
-    parser.add_argument("--version", action="version", version=CLI_VERSION)
+    parser.add_argument("--version", "-v", action="version", version=CLI_VERSION)
 
     args = parser.parse_args()
 
