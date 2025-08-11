@@ -4,7 +4,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from bfjira import __version__
+from importlib import metadata
 from bfjira.main import main
 
 
@@ -157,4 +157,4 @@ def test_main_version_flag(capsys):
             main()
     assert excinfo.value.code == 0
     captured = capsys.readouterr()
-    assert __version__ in captured.out
+    assert metadata.version("bfjira") in captured.out

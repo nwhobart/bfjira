@@ -43,7 +43,6 @@ build-backend = "poetry.core.masonry.api"
 bfjira = 'bfjira.main:main'
 
 [tool.semantic_release]
-version_variable = ["bfjira/__init__.py:__version__"]
 version_toml = ["pyproject.toml:tool.poetry.version"]
 version_pattern = ["README.md:rev: v{version}"]
 commit_parser = "angular"
