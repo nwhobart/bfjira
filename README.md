@@ -70,7 +70,7 @@ Optionally, you can set the `JIRA_TICKET_PREFIX` environment variable to use a d
 - Increase output verbosity (useful for debugging):
 
   ```bash
-  bfjira -t 1234 -v
+  bfjira -t 1234 --verbose
   ```
 
 - Optionally prevent transitioning the ticket to 'In Progress':
@@ -122,7 +122,7 @@ The versioning is automated through GitHub Actions, which:
 
 If you encounter issues not covered here:
 1. Check the [GitHub Issues](https://github.com/nwhobart/bfjira/issues) for similar problems
-2. Enable verbose output with `-v` flag for more detailed error messages
+2. Enable verbose output with `--verbose` flag for more detailed error messages
 3. Open a new issue with detailed information about your problem
 
 ## Development
