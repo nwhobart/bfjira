@@ -1,1 +1,1 @@
-__version__ = "0.7.0"
+"""BFJIRA - A tool for interacting with JIRA and Git for branch management."""
